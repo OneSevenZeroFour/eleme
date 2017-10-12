@@ -5,6 +5,16 @@
 * @Last Modified time: 2017-10-12 16:38:15
 */
 var https = require("https");
+const mysql = require("mysql");
+
+//连接远程数据库(邓)
+var connection = mysql.createConnection({
+	host:"10.3.132.128",
+	user:"eleme",
+	password:"123123",
+	database:"ele"
+});
+connection.connect();
 //console.log(http);
 //http.get(url,callback)
 //mysql cheerio
