@@ -1,0 +1,22 @@
+/* 
+* @Author: Marte
+* @Date:   2017-10-12 19:45:18
+* @Last Modified by:   Marte
+* @Last Modified time: 2017-10-12 20:07:08
+*/
+*{
+    font-family: '微软雅黑';
+    margin: 0;
+    padding: 0;
+    background: #000; 
+}
+body,html{
+    height: 100%;
+    width: 100%;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
