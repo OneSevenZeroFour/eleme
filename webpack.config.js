@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:50:32
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-12 19:50:24
+* @Last Modified time: 2017-10-13 09:58:16
 */
 
 var webpack = require('webpack');
@@ -34,9 +34,7 @@ module.exports = {
             loader: 'vue-loader'
         },{
             test: /\.js$/,
-            options: {
-                presets: ['env']
-            },
+      
             exclude: /(node_modules)/,
             loader: 'babel-loader'
         }]
