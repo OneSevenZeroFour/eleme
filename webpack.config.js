@@ -46,9 +46,9 @@ module.exports = {
         },
     },
     watch: true,
-    devServer: {
-        contentBase: "./dist",
-        compress: true,
-        port: 10001
-    }
+//  devServer: {
+//      contentBase: "./dist",
+//      compress: true,
+//      port: 10001
+//  }
 }
