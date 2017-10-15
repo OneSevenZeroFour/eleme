@@ -12,7 +12,7 @@
             <a v-dtab href="#/login/psd">密码登录</a>
         </div>
         <router-view></router-view>
-        <p v-login class="login_bn">登录</p>
+        
         <a href="#/about" class="about">关于我们</a>
     </div>
 </template>
@@ -25,12 +25,7 @@
                 brief:"美好生活 触手可得",
             }
         },
-        directives:{
-            login(el,bind){
-                $(el).on('click',function(e){
-                    console.log('clickbn');
-                })
-            },
+        directives:{            
             dtab(el,bind){
                 $(el).on('click',function(e){
                     $(el).addClass('on').siblings("*").removeClass('on');
@@ -45,12 +40,13 @@
         text-align: center;
     }
     h2{
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-family: "幼圆";
         font-weight: 600;
-        color:#37F;
+        color:#2395ff;
         line-height: 1em;
-        padding-top:0.8rem;
+        padding-top:1rem;
+        padding-bottom: 0.2rem;
     }
     h2 p{
         font-size: 0.4rem;
@@ -69,24 +65,13 @@
         display:inline-block;
     }
     .logintype a:active,.logintype a.on{
-        color:#36F;
+        color:#2395ff;
         font-weight: 600;
-        border-bottom: 2px solid #33F;
+        border-bottom: 2px solid #2395ff;
     }
 
-    .login_bn{
-        width: 80%;
-        height: 0.9rem;
-        line-height: 0.9rem;
-        background: #2d3;
-        margin:2em auto 1em;
-        color:#fff;
-        font-size: 0.4rem;
-        text-align: center;
-        border-radius: 8px;
-    }
     .about{
-        font-size: 0.3rem;
+        font-size: 0.35rem;
         color:#666;
         line-height: 1em;
         display:block;
