@@ -1,3 +1,4 @@
+//商品详情主题
 <template>
 	<div class="shop-main">
 		<div class="shop-tab-container">

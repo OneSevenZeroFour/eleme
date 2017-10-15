@@ -1,3 +1,4 @@
+//商店详情
 <template>
     <div class="index-root">
 	    <div class="shop-warp">

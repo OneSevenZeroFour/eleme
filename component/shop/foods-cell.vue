@@ -1,3 +1,4 @@
+//商品条目
 <template>
 	<dd class="foods-cell">
 		<div class="cellWrap">

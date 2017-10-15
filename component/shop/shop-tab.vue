@@ -1,3 +1,4 @@
+//商品详情tab
 <template>
 	<div class="shop-tab-container">		
 		<div class="tab-item" :class="{'active':tabState[0]}" @click="changeTab(0)"><span>商品</span></div>

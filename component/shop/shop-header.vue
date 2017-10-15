@@ -1,3 +1,4 @@
+//商品详情头部
 <template>
 	<div class="shop-header">
 		<nav class="shop-header-nav">

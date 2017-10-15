@@ -1,3 +1,4 @@
+//商品模块
 <template>
 	<div class="foodsWrap">
 		<menuCate :stairs="fruit"></menuCate>
