@@ -12,13 +12,13 @@
 				</p>
 				<strong class="Info-price">26</strong>
 				<div class="cartbutton">
-					<span>
+					<div>
 						<span class="cartbutton-entitybutton">
 							<button class="cartbtn minusbtn" @click="btnClick"></button>
 							<span class="cartQty">1</span>
 							<button class="cartbtn plusbtn" @click="btnClick"></button>
 						</span>
-					</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -96,18 +96,23 @@
 		content: "￥";
 	}
 	.cartbutton{
+		/*display: inline-block;*/
+		/*height: 40px;*/
+		line-height: 1.2;
 	    position: absolute;
 	    right: 0;
 	    bottom: -.066667rem;
+	    font-size: .346667rem;
 	}
 	.cartbutton-entitybutton{
+		display: inline-block;
 		    white-space: nowrap
 	}
 	.cartQty{
 	    display: inline-block;
 	    text-align: center;
 	    color: #666;
-	    vertical-align: middle;
+	    vertical-align: top;
 	    font-size: .373333rem;
 	    min-width: .4rem;
 	    max-width: 2em;
