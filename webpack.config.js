@@ -6,12 +6,13 @@
 */
 
 var webpack = require('webpack');
-
+// const publicPath = "http://localhost:10001"; 用于配置引入图片时 寻找路径的问题
 module.exports = {
     entry:'./index.js',
     output:{
         path:__dirname + '/dist',
-        filename:'bundle.js'
+        filename:'bundle.js',
+        // publicPath
     },
     module:{
         loaders:[{
@@ -21,7 +22,7 @@ module.exports = {
             test:/\.html$/,
             loader:'html-loader'
         },{
-            test:/\.(jpg|png|gif|jpeg)$/,
+            test:/\.(jpg|png|gif|jpeg|PNG)$/,
             loader:'url-loader'
         },{
             test:/\.(ttf|woff|eot|svg)$/,
@@ -46,8 +47,10 @@ module.exports = {
         },
     },
     watch: true,
-    devServer: {
+    devServer: { //npm run server
         contentBase: "./dist",
+        inline: true,//实时刷新
+        historyApiFallback: true, //不跳转        
         compress: true,
         port: 10001
     }

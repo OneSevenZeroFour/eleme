@@ -9,6 +9,19 @@
     margin: 0;
     padding: 0;
 }
+em,i{
+	font-style: normal;
+}
+img{
+	display: block;
+	border: 0 none;
+}
+html {
+	font-size: 75px;
+    -ms-overflow-style:none;
+    overflow:-moz-scrollbars-none;
+}
+html::-webkit-scrollbar{width:0px}
 body,html{
     height: 100%;
     width: 100%;

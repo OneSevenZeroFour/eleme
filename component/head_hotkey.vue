@@ -1,0 +1,75 @@
+<template>
+	<div class="hd_list">
+		<div class="hd_hotkey">
+			<a href="javascript:void(0);" v-for="i in databox">{{i.search_word}}</a>
+		</div>
+	</div>
+</template>
+<script>
+	export default {
+		data(){
+			return {
+				databox:[]
+			}
+		},
+		mounted(){
+			var	self = this;
+			window.$.ajax({
+				url:"http://localhost:10086/hotkey",
+				type:"GET",
+				success:function(datas){
+					var res = datas;
+					var result;
+					try{
+						res = JSON.parse(datas)
+					}catch(err){
+						console.log(err)
+					}
+					try{
+						result = JSON.parse(res.data)
+						// result.forEach(function(item){
+						self.databox = result
+						console.log(self.databox)
+						// })
+					}catch(e){
+						console.log(e)
+					}
+				}
+			})
+		}
+	}
+</script>
+<style lang="scss" scoped>
+	.hd_list{
+		background: #00A1FF;
+    	width: 100%;
+		.hd_hotkey{
+			width: 90%;
+		    height: 0.6rem;
+		    background: #00A1FF;
+		    display: -webkit-box;
+		    display: -ms-flexbox;
+		    display: flex;
+		    -ms-flex-pack: distribute;
+		    justify-content: space-between;
+		    -webkit-box-align: center;
+		    -ms-flex-align: center;
+		    align-items: center;
+		    overflow: hidden;
+		    overflow-x: scroll;
+		    white-space: nowrap;
+		    -webkit-overflow-scrolling: touch;
+		    margin: 0 auto;
+		    a{
+				font-size: 14px;
+			    color: #fff;
+			    display: block;
+			    padding: 0 0.1rem;
+		    }
+		}
+		.hd_hotkey::-webkit-scrollbar{
+			width:0;
+			height: 0;
+		}
+	}
+</style>

@@ -13,26 +13,50 @@ import Vuex from 'vuex';
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+
 import "./css/base.css";
 import $ from 'jquery';
 
+window.$ = $;
+
+import hotkey from "./component/head_hotkey.vue";
+import hdmenu from "./component/head_slidemenu.vue";
+import hdtehui from "./component/head_tehui.vue";
+import remaicombo from "./component/combo_list.vue";
 //配置路由
-// var router = new VueRouter({
-//     routes: [{
-//             path: '/home',
-//             component: xhome
-//         },
-//         {
-//             path: '/setting',
-//             component: xfooter
-//         }
-//     ]
-// })
-// 
+var router = new VueRouter({
+    routes: [
+    	{
+    		path:"/",
+    		redirect:"/home"
+    	},{
+            path: '/home',
+            components: {
+            	hotkey: hotkey,
+            	hdmenu: hdmenu,
+            	hdtehui: hdtehui,
+            }
+        },{
+        	path:"/remai",
+        	components:{
+        		combo: remaicombo
+        	}
+        }
+    ]
+})
+
 new Vue({
     el: "#ele",
     data: {
         name: "eleme"
     },
-    // router
+    template:`
+    	<div>
+	    	<router-view name="hotkey"></router-view>
+	    	<router-view name="hdmenu"></router-view>
+	    	<router-view name="hdtehui"></router-view>
+	    	<router-view name="combo"></router-view>
+    	</div>
+    `,
+    router
 });
