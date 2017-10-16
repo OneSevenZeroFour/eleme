@@ -1,18 +1,18 @@
 //商品模块
 <template>
 	<div class="foodsWrap">
-	<p style="font-size: 30px">{{curStair}}</p>
+	<!-- <p style="font-size: 30px">{{foodList}}</p> -->
 		<menuCate :stairs="foodModel"></menuCate>
 		<div class="menu-container" @scroll="menuScroll">
-			<div class="menu-list" >
-				<dl v-for="item in foodModel" :key="item.item_id" class="menu-stair">
+			<div class="menu-list">
+				<dl v-for="(item,index) in foodModel" :data-index="index" :key="item.item_id" class="menu-stair" @click="dlclick">
 					<dt>
 						<div class="foodsCate"><strong class="cateName">{{item.name}}</strong></div>
 					</dt>
 					<foodsCell v-for="food in item.foods" :cell="food"></foodsCell>
-				</dl>			
+				</dl>
 			</div>
-		</div>	
+		</div>
 	</div>
 </template>
 
@@ -23,23 +23,37 @@
 		props:["foodModel"],
 		data(){
 			return {
-				fruit:["stair1","stari2","stair3"]
 			}
 		},
 		methods:{
 			menuScroll(ev){
 				this.$store.dispatch('letSetDetailPosition',ev.target.scrollTop);
+			},
+			dlclick(ev){
+				console.log(ev.target.getAttribute("data-index"))
 			}
 		},
 		computed:{
+			foodList(){
+				let res = [];
+				for(let i = 0; i < this.foodModel.length ; i++){
+					for(var item in this.foodModel[i]){
+						if (item === "foods") {
+							for(let j = 0; j <this.foodModel[i]["foods"].length ; j++){
+								res.push({fid:this.foodModel[i]["foods"][j]["item_id"],qty:0});
+							}
+						}
+					}
+				}
+				console.log(res)
+				return res;
+			},
 			curStair(){
 				var cur = 0;
-				console.log($('.menu-stair'))
 				for(var i = 0; i < this.foodModel.length; i++){
 					if ($('.menu-list')[0].scrollTop >= $('.menu-stair').eq(i).offsetTop ) {
-						console.log(i);
 						cur = i;
-					}				
+					}
 				}
 				return cur;
 			}

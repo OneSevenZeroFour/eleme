@@ -5,7 +5,7 @@
 * @Last Modified time: 2017-10-16 16:31:25
 */
 var https = require("https");
-const mysql = require("mysql");
+// const mysql = require("mysql");
 var url_mode = require("url");
 var express = require('express');
 var body_parser = require('body-parser');
@@ -21,13 +21,13 @@ epx.use(body_parser.urlencoded({
 epx.use(express.static("./imgs"));
 epx.use(express.static("./dist"));
 //连接数据库
-var connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-	database:"ele"
-});
-connection.connect();
+// var connection = mysql.createConnection({
+//     host:'localhost',
+//     user:'root',
+//     password:'',
+// 	database:"ele"
+// });
+// connection.connect();
 
 console.log('run');
 
@@ -70,9 +70,10 @@ epx.post('/getWeather',function(req,res){
         }).on("end",function(){
             console.log("end");
             res.send(data);
-        }).on("error",function(){
-            console.log("get error");                 
-        });
+        })
+//      .on("error",function(){
+//          console.log("get error");                 
+//      });
     });
          
 }).post('/checkUser',function(req,res){
@@ -122,10 +123,7 @@ epx.get('/shopheader',function(req,res){
         response.on('end',function(){
             console.log("header数据接受完毕");
             res.send(data);
-        }).on('error',function(){
-            console.log("read error");
-            res.send('error');
-        });
+        })
     })
 
 })
@@ -144,10 +142,7 @@ epx.get('/shop',function(req,res){
         }).on("end",function(){
             console.log("数据接受完毕")
             res.send(data);
-        }).on("error",function(){
-            console.log("read error");
-            res.send('error');
-        });
+        })
     })
 });
 // ===============================LZH end==================================

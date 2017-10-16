@@ -31,7 +31,6 @@
 		props:["cell"],
 		data(){
 			return {
-				
 			}
 		},
 		methods: {

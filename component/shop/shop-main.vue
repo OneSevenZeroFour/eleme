@@ -28,7 +28,7 @@
 			showTab(idx){
 				if(this.curTabIdx === idx){
 					return true;
-				}else{ 
+				}else{
 					return false;
 				}
 			},
