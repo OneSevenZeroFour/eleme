@@ -42,7 +42,7 @@ app.get("/hotkey",function(req,response){
             }));
         })
     })
-})
+});
 app.get("/remai",function(req,response){
      response.setHeader("Access-Control-Allow-Origin","*");
     https.get("https://restapi.ele.me/shopping/v1/sale_list_index?type=hot_sale_combo&latitude=23.13388&longitude=113.32507&params=%7B%22restaurant_category_ids%22%3A%22None%22%7D",function(res){
@@ -58,6 +58,6 @@ app.get("/remai",function(req,response){
             }));
         })
     })   
-})
+});
 app.listen(10086);
 console.log("server start")
