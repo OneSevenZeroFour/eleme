@@ -92,7 +92,9 @@
                         }); 
                               
                     }else{
-                        console.log('failed'+this.getStatus());                        
+                        console.log('failed'+this.getStatus());   
+                        var obj = {ads:"未能获取地址"};
+                        self.$store.dispatch("letSetPosition",obj);                         
                     }
                      
                 },{enableHighAccuracy:true});

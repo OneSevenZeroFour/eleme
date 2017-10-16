@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:50:32
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-13 16:42:43
+* @Last Modified time: 2017-10-16 15:06:21
 */
 
 var webpack = require('webpack');
@@ -46,9 +46,9 @@ module.exports = {
         },
     },
     watch: true,
-    devServer: {
-        contentBase: "./dist",
-        compress: true,
-        port: 10001
-    }
+    // devServer: {
+    //     contentBase: "./dist",
+    //     compress: true,
+    //     port: 10001
+    // }
 }

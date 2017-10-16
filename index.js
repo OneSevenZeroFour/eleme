@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:42:40
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-15 15:08:41
+* @Last Modified time: 2017-10-16 17:24:40
 */
 
 //webpack入口文件
@@ -29,7 +29,7 @@ import psdlogindiv from "./component/deng/psdlogin.vue";
 import searchNearby from "./component/deng/setPosition.vue";
 import deng_mine from "./component/deng/my.vue";
 import deng_userorder from "./component/deng/order.vue";
-
+import shop from "./component/shop/shop.vue";
 //配置路由
 const router = new VueRouter({
     routes: [{
@@ -60,6 +60,9 @@ const router = new VueRouter({
         },{
             path:"/userorder",
             component:deng_userorder
+        },{
+            path:"/shop/:id",
+            component:shop
         }
     ]
 });
@@ -70,7 +73,8 @@ var store = new Vuex.Store({
         position: "获取位置中...",
         lat:0,
         lng:0,
-        weather:''
+        weather:'',
+        detailTop: 0
     },
     mutations: {
         setAds(state, obj) {       
@@ -84,16 +88,24 @@ var store = new Vuex.Store({
         },
         setWeather(state, obj){
             state.weather = obj;
+        },
+        setDetailTop(state,obj){
+            state.detailTop = obj;
         }
     },
     actions: {
         letSetPosition(context, obj) {
             context.commit("setAds", obj.ads);
-            context.commit("setLat", obj.lat);
-            context.commit("setLng", obj.lng);
+            if(obj.lat)
+                context.commit("setLat", obj.lat);
+            if(obj.lng)
+                context.commit("setLng", obj.lng);
         },
         letGetWeather(context, obj){
             context.commit("setWeather",obj);
+        },
+        letSetDetailPosition(context, obj){
+            context.commit("setDetailTop", obj);
         }
     },
     getters: {
@@ -105,7 +117,11 @@ var store = new Vuex.Store({
         },
         getWeather(state){
             return state.weather;
+        },
+        getDetailTop(state){
+            return state.detailTop;
         }
+
     }
 
 });
@@ -138,14 +154,16 @@ new Vue({
                     }); 
                           
                 }else{
-                    console.log('failed'+this.getStatus());                         
+                    console.log('failed'+this.getStatus());     
+                    var obj = {ads:"未能获取地址"};
+                    self.$store.dispatch("letSetPosition",obj);                    
                 }
                  
             },{enableHighAccuracy:true});
         }
     },
     created(){
-        this.getPosition();
+        // this.getPosition();
     },
     router,
     store

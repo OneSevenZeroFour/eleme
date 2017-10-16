@@ -2,12 +2,14 @@
 * @Author: Marte
 * @Date:   2017-10-12 16:29:13
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-15 13:39:30
+* @Last Modified time: 2017-10-16 16:31:25
 */
 var https = require("https");
 const mysql = require("mysql");
+var url_mode = require("url");
 var express = require('express');
 var body_parser = require('body-parser');
+var querystring = require('querystring')
 
 var epx = new express();
 epx.use(body_parser.json());
@@ -17,7 +19,7 @@ epx.use(body_parser.urlencoded({
     //为true的时候，可为任何数据类型
 }));
 epx.use(express.static("./imgs"));
-
+epx.use(express.static("./dist"));
 //连接数据库
 var connection = mysql.createConnection({
     host:'localhost',
@@ -100,5 +102,53 @@ epx.post('/getWeather',function(req,res){
         if(err) throw err;
         res.send(JSON.stringify(ress));
     });      
-}).listen(10086);
+});
 // ===============================DYT end==================================
+
+
+// ===============================LZH start================================
+epx.get('/shopheader',function(req,res){
+    res.append("Access-Control-Allow-Origin","*");
+    var query = url_mode.parse(req.url).query;
+    var data = querystring.parse(query);
+    var shop_url = "https://restapi.ele.me/shopping/restaurant/"+data['id']+"?extras[]=activities&extras[]=albums&extras[]=license&extras[]=identification&extras[]=qualification&terminal=h5&latitude=31.23037&longitude=121.473701";
+    https.get(shop_url,function(response){
+        var data = "";
+        response.setEncoding('utf8');
+        response.on('data',function(chunk){
+            console.log('header接受数据');
+            data += chunk;
+        });
+        response.on('end',function(){
+            console.log("header数据接受完毕");
+            res.send(data);
+        }).on('error',function(){
+            console.log("read error");
+            res.send('error');
+        });
+    })
+
+})
+epx.get('/shop',function(req,res){
+    res.append("Access-Control-Allow-Origin","*");
+    var query = url_mode.parse(req.url).query;
+    var data = querystring.parse(query);
+    var shop_goods_url = "https://restapi.ele.me/shopping/v2/menu?restaurant_id="+data['id'];
+    //id后拼接参数（商家id）
+    https.get(shop_goods_url,function(response){
+        var data = "";
+        response.setEncoding('utf8');
+        response.on("data",function(chunk){
+            console.log("接受数据")
+            data += chunk;
+        }).on("end",function(){
+            console.log("数据接受完毕")
+            res.send(data);
+        }).on("error",function(){
+            console.log("read error");
+            res.send('error');
+        });
+    })
+});
+// ===============================LZH end==================================
+epx.listen(10086);
