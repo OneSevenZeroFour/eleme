@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 19:45:18
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-13 10:11:33
+* @Last Modified time: 2017-10-15 12:44:22
 */
 *{
     font-family: '微软雅黑';
@@ -24,6 +24,7 @@ html {
 html::-webkit-scrollbar{width:0px}
 body,html{
     height: 100%;
+    font-size: 75px;
     width: 100%;
 }
 a{
@@ -36,3 +37,17 @@ a:active{
 li{
     list-style: none;
 }
+.ico{
+    font-family: "iconfont";
+}
+img{
+    border:none;
+}
+#ele{
+    height: 100%;
+}
+/*@media (max-width:450px) and (min-width:320px){
+   html{
+        font-size: 75px;
+   }
+}*/
