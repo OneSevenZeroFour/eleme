@@ -14,9 +14,14 @@
 		},
 		mounted(){
 			var	self = this;
+			console.log(self.$store)
 			window.$.ajax({
 				url:"http://localhost:10086/hotkey",
 				type:"GET",
+				data:{
+					lat:self.$store.state.lat,
+					lng:self.$store.state.lng
+				},				
 				success:function(datas){
 					var res = datas;
 					var result;
@@ -45,7 +50,7 @@
     	width: 100%;
 		.hd_hotkey{
 			width: 90%;
-		    height: 0.6rem;
+		    height: 1.2rem;
 		    background: #00A1FF;
 		    display: -webkit-box;
 		    display: -ms-flexbox;
@@ -61,10 +66,10 @@
 		    -webkit-overflow-scrolling: touch;
 		    margin: 0 auto;
 		    a{
-				font-size: 14px;
+				font-size: 28px;
 			    color: #fff;
 			    display: block;
-			    padding: 0 0.1rem;
+			    padding: 0 0.2rem;
 		    }
 		}
 		.hd_hotkey::-webkit-scrollbar{

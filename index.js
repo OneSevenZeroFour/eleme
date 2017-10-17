@@ -23,6 +23,7 @@ import hotkey from "./component/head_hotkey.vue";
 import hdmenu from "./component/head_slidemenu.vue";
 import hdtehui from "./component/head_tehui.vue";
 import remaicombo from "./component/combo_list.vue";
+import navmeishi from "./component/nav_meishi.vue";
 //配置路由
 var router = new VueRouter({
     routes: [
@@ -35,15 +36,27 @@ var router = new VueRouter({
             	hotkey: hotkey,
             	hdmenu: hdmenu,
             	hdtehui: hdtehui,
-            }
+            },
         },{
         	path:"/remai",
         	components:{
         		combo: remaicombo
         	}
+        },{
+        	path:"/meishi",
+        	components:{
+        		navmeishi: navmeishi
+        	}
         }
     ]
 })
+
+var store = new Vuex.Store({
+	state:{
+		lat:23.13388,
+		lng:113.32507
+	}
+});
 
 new Vue({
     el: "#ele",
@@ -56,7 +69,9 @@ new Vue({
 	    	<router-view name="hdmenu"></router-view>
 	    	<router-view name="hdtehui"></router-view>
 	    	<router-view name="combo"></router-view>
+	    	<router-view name="navmeishi"></router-view>
     	</div>
     `,
-    router
+    router,
+    store
 });

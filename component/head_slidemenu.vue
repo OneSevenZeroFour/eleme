@@ -2,7 +2,7 @@
 	<section class="hd_menu">
 		<div class="slide_submenu" v-touchslide>
 			<aside>
-				<a href="javascript:;" v-for="i in leftmenu">
+				<a v-for="i in leftmenu"  :href="i.targeturl">
 					<div>
 						<img :src="i.imgurl" alt="">
 					</div>
@@ -33,35 +33,35 @@
 					{
 						title:"美食",
 						imgurl:require("../img/meishi.PNG"),
-						targeturl:""
+						targeturl:"#/meishi"
 					},{
 						title:"甜品饮品",
 						imgurl:require("../img/yinpin.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"商超便利",
 						imgurl:require("../img/chaoshi.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"预订早餐",
 						imgurl:require("../img/zaocan.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"果蔬生鲜",
 						imgurl:require("../img/guosu.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"新店特惠",
 						imgurl:require("../img/xindian.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"大牌必吃",
 						imgurl:require("../img/dapai.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					},{
 						title:"晚餐",
 						imgurl:require("../img/wancan.PNG"),
-						targeturl:""
+						targeturl:"javascript:;"
 					}
 				],
 				rightmenu:[
@@ -140,38 +140,15 @@
 			}
 		},		
 		mounted(){
-			var	self = this;
-			// window.$.ajax({
-			// 	url:"http://localhost:10086/hotkey",
-			// 	type:"GET",
-			// 	success:function(datas){
-			// 		var res = datas;
-			// 		var result;
-			// 		try{
-			// 			res = JSON.parse(datas)
-			// 		}catch(err){
-			// 			console.log(err)
-			// 		}
-			// 		try{
-			// 			result = JSON.parse(res.data)
-			// 			// result.forEach(function(item){
-			// 			self.databox = result
-			// 			console.log(self.databox)
-			// 			// })
-			// 		}catch(e){
-			// 			console.log(e)
-			// 		}
-			// 	}
-			// })
 		}
 	}
 </script>
 <style lang="scss" scoped>
 	.hd_menu{
 		.slide_submenu{
-			font-size: 14px;
+			font-size: 24px;
 		    overflow: hidden;
-		    height: 2.6rem;
+		    height: 5rem;
 		    background-color: #fff;
 		    text-align: center;
 		    position:relative;
@@ -189,20 +166,28 @@
 				transition:3s 1s linear;		    	
 		    }
 			aside{
+		    display: -webkit-box;
+		    display: -ms-flexbox;
 		    display: flex;
 		    width: 100%;
 		    height: 100%;
+		    -webkit-box-orient: horizontal;
+		    -webkit-box-direction: normal;
+		    -ms-flex-flow: row wrap;
 		    flex-flow: row wrap;
+		    -ms-flex-pack: distribute;
+		    justify-content: space-around;
 		    position: absolute;	
 		    background: #fff;
+		    -webkit-transition:3s 1s linear;
 		    transition:3s 1s linear;		
 				a{
-					color: #333;
-					margin: 0 0.2rem;
+					color: #555;
+					margin: 0 0.4rem;
     				display: block;
     				div{
-					    width: 0.8rem;
-					    height: 0.8rem; 
+					    width: 1.6rem;
+					    height: 1.6rem; 
 					    img{
 						    display: block;
 						    width: 100%;
@@ -219,7 +204,7 @@
 	}
 	.hd_menu_point{
 	    width: 98%;
-	    height: 0.3rem;
+	    height: 0.6rem;
 	    text-align: center;
 	    display: -webkit-box;
 	    display: -ms-flexbox;
@@ -234,14 +219,14 @@
 	    margin: 0 auto;	
 	    span{
 		    display: inline-block;
-		    width: 6px;
-		    height: 6px;
+		    width: 12px;
+		    height: 12px;
 		    background: #666;
 		    border-radius: 100%;
 	    }
 	    span:nth-of-type(1){
 	    	background:#3CB371;
-		    margin-right: 0.1rem;		    	
+		    margin-right: 0.2rem;		    	
 	    }	
 	    span.bg1{
 			transition:all 0.3s linear;			

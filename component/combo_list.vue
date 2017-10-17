@@ -5,7 +5,10 @@
 		</header>
 		<section>
 			<nav>
-				<span v-for="i in sortlist">{{i.condition}}</span>
+				<span
+				 	v-for="i in sortlist"
+				   @click="interval(i.event_name)"
+				    :class="{'nav_active':idx==i.event_name}">{{i.condition}}</span>
 			</nav>
 		</section>
 		<div class="remai_content">
@@ -39,24 +42,35 @@
 				foods:"./img/remai.PNG",
 				sortlist:[
 					{
-						condition:"全部"
+						condition:"全部",
+						event_name:"remai",
 					},{
-						condition:"￥20以下"
+						condition:"￥20以下",
+						event_name:"remai20",
 					},{
-						condition:"￥20-￥30"
+						condition:"￥20-￥30",
+						event_name:"remai30",
 					},{
-						condition:"￥30-￥40"
+						condition:"￥30-￥40",
+						event_name:"remai40",
 					},{
-						condition:"￥40以上"
+						condition:"￥40以上",
+						event_name:"remaimax",
 					},{
-						condition:"蜂鸟专送"
+						condition:"蜂鸟专送",
+						event_name:"hummingbird",
 					},{
-						condition:"品牌商家"
+						condition:"品牌商家",
+						event_name:"shops",
 					},{
-						condition:"距离最近"
+						condition:"距离最近",
+						event_name:"recently",
 					}
 				],	
-				databox:[]			
+				databox:[],
+				// 设置一个默认值 默认高亮；其他的点击时更改值 符合条件就高亮
+				idx:"remai",				
+				currentActive:""		
 			}
 		},
 		methods:{
@@ -65,6 +79,10 @@
 				window.$.ajax({
 					url:"http://localhost:10086/remai",
 					type:"GET",
+					data:{
+						lat:self.$store.state.lat,
+						lng:self.$store.state.lng
+					},
 					success(datas){
 						var res = datas;
 						var result;
@@ -82,6 +100,48 @@
 						}						
 					}
 				})
+			},
+			interval(key){
+				this.idx = key;
+				var self = this;
+				console.log(key)
+				//防止重复请求
+				if(this.currentActive == key){
+					return
+				}
+				//更新条件判断
+				this.currentActive = key;
+				console.log("return",key)
+				window.$.ajax({
+					url:"http://localhost:10086/"+key,
+					type:"GET",
+					data:{
+						lat:self.$store.state.lat,
+						lng:self.$store.state.lng
+					},					
+					success(datas){
+						var res = datas;
+						var result;
+						try{
+							res = JSON.parse(datas)
+						}catch(err){
+							console.log(err)
+						}
+						try{
+							result = JSON.parse(res.data);
+							console.log(result)
+							if(key == "remai"){
+								self.databox = result.query_list
+								console.log("默认全部",self.databox)
+							}else{
+								self.databox = result
+								console.log("否则条件筛选",self.databox)
+							}
+						}catch(e){
+							console.log(e)
+						}						
+					}
+				})				
 			}
 		},
 		mounted(){
@@ -100,25 +160,25 @@
 		}
 		section{
 		    width: 100%;
-		    height: 0.6rem;
+		    height: 1.2rem;
 		    background: #f8f8f8;
-		    line-height: 0.6rem;
+		    line-height: 1.2rem;
 		    overflow: hidden;			
 			nav{
 			    width: 100%;
-			    font-size: 12px;
+			    font-size: 24px;
 			    overflow: hidden;
 			    overflow-x: scroll;
 			    overflow-y: hidden;
 			    white-space: nowrap;
 			    -webkit-overflow-scrolling: touch;				
 				span{
-				    font-size: 12px;
+				    font-size: 24px;
 				    color: #333;
 				    border: 1px solid #d8d8d8;
-				    padding: 0.04rem 0.18rem;
-				    border-radius: 0.4rem;
-				    margin: 0 0.1rem;				
+				    padding: 0.08rem 0.36rem;
+				    border-radius: 0.8rem;
+				    margin: 0 0.2rem;				
 				}
 				.nav_active{
     				background: #ebf5ff;
@@ -134,16 +194,16 @@
 		}
 		.remai_content{
 			ul{
-				padding: 0 0.2rem;
+				padding: 0 0.4rem;
 				li{
 				    width: 100%;
-				    min-height: 1.4rem;
+				    min-height: 2.8rem;
 				    display: -webkit-box;
 				    display: -ms-flexbox;
 				    display: flex;
 				    -ms-flex-pack: distribute;
 				    justify-content: space-around;
-				    padding: 0.1rem 0;					
+				    padding: 0.2rem 0;					
 					.remai_content_img{
 						width: 30%;
 						img{
@@ -154,76 +214,76 @@
 					.remai_content_contains{
 						width: 70%;
 					    box-sizing: border-box;
-					    padding-left: 0.18rem;
+					    padding-left: 0.36rem;
 					    border-bottom: 1px solid #d8d8d8;
-					    margin-left: 0.08rem;					    						
+					    margin-left: 0.16rem;					    						
 						h3{
-						    font-size: 14px;
+						    font-size: 30px;
 						    color: #444;
-						    line-height: 0.3rem;							
+						    line-height: 0.6rem;							
 						}
 						.dianpu_details{
-						    font-size: 12px;
+						    font-size: 24px;
 						    color: #999;
-						    line-height: 0.3rem;
+						    line-height: 0.6rem;
 						    i{
 								display: inline-block;
-							    width: 0.16rem;
-							    height: 0.16rem;
+							    width: 0.32rem;
+							    height: 0.32rem;
 							    vertical-align: middle;
-							    line-height: 0.16rem;						    	
+							    line-height: 0.32rem;						    	
 						    }
 						    span{
 								color: #ff6000;
-							    padding-right: 0.2rem;						    	
+							    padding-right: 0.4rem;						    	
 						    }							
 						}
 						h4{
-						    font-size: 12px;
+						    font-size: 24px;
 						    font-weight: normal;
 						    color: #999;	
 						    i{
 								display: inline-block;
-							    width: 0.16rem;
-							    height: 0.16rem;
+							    width: 0.32rem;
+							    height: 0.32rem;
 							    vertical-align: middle;
-							    line-height: 0.16rem;						    	
+							    line-height: 0.32rem;						    	
 						    }						    						
 						}
 						div{
-						    font-size: 14px;
+						    font-size: 28px;
 						    overflow: hidden;
-						    padding-top: 0.1rem;
+						    padding-top: 0.2rem;
 						    p{
-							    line-height: .5rem;
-							    height: 0.5rem;
+							    line-height: 1rem;
+							    height: 1rem;
 							    float: left;	
 							    span{
 								    color: #ff6000;
 								    font-weight: bold;
-								    font-size: 18px;
+								    font-size: 36px;
 								    vertical-align: middle;							    	
 							    }	
 							    span::before{
 							    	content:"￥";
-							    	font-size: 12px;
+							    	font-size: 24px;
 							    }
 							    em{
-									font-size: 12px;
+									font-size: 24px;
 								    background: #f8f8f8;
 								    color: #888;
-								    margin-left: 0.2rem;							    	
+								    margin-left: 0.4rem;							    	
 							    }				    	
 						    }
 						    button{
-							    font-size: 14px;
+							    font-size: 28px;
 							    font-weight: bold;
 							    float: right;
 							    color: #f94843;
-							    padding: 0.08rem 0.2rem;
+							    padding: 0.16rem 0.4rem;
 							    background: #fff;
 							    border: 1px solid #f94843;
-							    border-radius: 4px;						    	
+							    border-radius: 8px;						    	
 						    }							
 						}
 					}

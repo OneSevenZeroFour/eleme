@@ -16,7 +16,7 @@
 					<img :src="imgqg" alt="">
 				</div>
 			</figure>
-			<figure>
+			<figure @click="changeroute">
 				<figcaption>热卖套餐</figcaption>
 				<p>销量最高,好评最多</p>
 				<div class="hd_hot_top">
@@ -62,30 +62,13 @@
 				]
 			}
 		},
+		methods:{
+			changeroute(){
+				//跳转路由
+				this.$router.push({path:"/remai"});
+			}
+		},
 		mounted(){
-			// 	var	self = this;
-			// 	window.$.ajax({
-			// 		url:"http://localhost:10086/hotkey",
-			// 		type:"GET",
-			// 		success:function(datas){
-			// 			var res = datas;
-			// 			var result;
-			// 			try{
-			// 				res = JSON.parse(datas)
-			// 			}catch(err){
-			// 				console.log(err)
-			// 			}
-			// 			try{
-			// 				result = JSON.parse(res.data)
-			// 				// result.forEach(function(item){
-			// 				self.databox = result
-			// 				console.log(self.databox)
-			// 				// })
-			// 			}catch(e){
-			// 				console.log(e)
-			// 			}
-			// 		}
-			// 	})
 		}
 	}
 </script>
@@ -95,8 +78,8 @@
 	    margin: 0 auto;	
 	    header{
 		    width: 100%;
-		    height: 1.1rem;
-		    padding-bottom: 0.1rem;	 
+		    height: 2.2rem;
+		    padding-bottom: 0.2rem;	 
 		    a{
 			    display: block;
 			    overflow: hidden;
@@ -116,26 +99,26 @@
 		    -webkit-box-pack: justify;
 		    -ms-flex-pack: justify;
 		    justify-content: space-between;
-		    height: 1.6rem;	    
+		    height: 3.2rem;	    
 		    figure{
 			    width: 46%;
-			    padding-left: 0.2rem;
+			    padding-left: 0.4rem;
 				background: #f8f8f8;
 			    position: relative;		    	
 		    }
 		    figure:nth-of-type(1){
 		    	figcaption{
-				    font-size: 16px;
+				    font-size: 32px;
 				    font-weight: 600;
 				    color: #f33;		    		
 		    	}
 		    	p{
-				    font-size: 14px;
-				    line-height: 24px;		    		
+				    font-size: 28px;
+				    line-height: 48px;		    		
 				    color: #888;
 		    	}
 		    	.qg_state{
-				    font-size: 12px;
+				    font-size: 24px;
 				    font-weight: 600;	
 				    span{
 				    	color: #f33;
@@ -145,11 +128,11 @@
 				    }
 		    	}
 		    	.qg_img{
-				    width: 1.5rem;
-				    height: 1.1rem;
+				    width: 3rem;
+				    height: 2.2rem;
 				    position: absolute;
 				    right: 0;
-				    bottom: -0.2rem;	
+				    bottom: -0.4rem;	
 				    img{
 				    	width: 100%;
 				    	height: 100%;
@@ -159,13 +142,13 @@
 		    figure:nth-of-type(2){
 		    	width: 45%;
 		    	figcaption{
-				    font-size: 16px;
+				    font-size: 32px;
 				    font-weight: 600;
 				    color: #333;		    		
 		    	}	
 		    	p{
-				    font-size: 14px;
-				    line-height: 24px;		    		
+				    font-size: 28px;
+				    line-height: 48px;		    		
 				    color: #888;
 		    	}		    	
 		    	.hd_hot_top{
@@ -173,17 +156,17 @@
 		    		display: -ms-flexbox;
 		    		display: flex;
 		    		span{
-					    font-size: 12px;
+					    font-size: 24px;
 					    font-weight: 600;
 					    color: #af8260;		    			
 		    		}
 		    	}	
 		    	.qg_img{
-				    width: 1.5rem;
-				    height: 1.1rem;
+				    width: 3rem;
+				    height: 2.2rem;
 				    position: absolute;
 				    right: 0;
-				    bottom: -0.2rem;	
+				    bottom: -0.4rem;	
 				    img{
 				    	width: 100%;
 				    	height: 100%;
@@ -193,7 +176,7 @@
 	    }	
 	    .hd_foot{
 			width: 100%;
-		    margin-top: 0.1rem;	    	
+		    margin-top: 0.2rem;	    	
 		    display: -webkit-box;	    	
 		    display: -ms-flexbox;	    	
 		    display: flex;
@@ -216,24 +199,24 @@
 			    -webkit-box-direction: normal;
 			    -ms-flex-flow: column wrap;
 			    flex-flow: column wrap;
-			    height: 2rem;
+			    height: 4rem;
 			    text-align: center;			
 				figcaption{
-				    font-size: 16px;
+				    font-size: 32px;
 				    font-weight: 600;
 				    color: #444;	
-				    line-height: 0.5rem;				
+				    line-height: 1rem;				
 				}
 				span{
-				    font-size: 12px;
+				    font-size: 24px;
 				    color: #666;
 				    border: 1px solid #d8d8d8;
 				    width: 62%;
 				    margin: 0 auto;				
 				}
 				div{
-				    width: 1.5rem;
-				    height: 1.1rem;	
+				    width: 3rem;
+				    height: 2.2rem;	
 				    img{
 				    	width: 100%;
 				    	height: 100%;
