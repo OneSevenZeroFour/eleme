@@ -74,6 +74,9 @@
 </script>
 <style lang="scss" scoped>
 	.hd_tehui{
+		img{
+			z-index:-1;
+		}
 		width: 96%;
 	    margin: 0 auto;	
 	    header{

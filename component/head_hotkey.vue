@@ -46,12 +46,12 @@
 </script>
 <style lang="scss" scoped>
 	.hd_list{
-		background: #00A1FF;
+		background-image: linear-gradient(90deg,#0af,#0085ff);
     	width: 100%;
 		.hd_hotkey{
 			width: 90%;
 		    height: 1.2rem;
-		    background: #00A1FF;
+		    
 		    display: -webkit-box;
 		    display: -ms-flexbox;
 		    display: flex;

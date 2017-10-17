@@ -145,6 +145,9 @@
 </script>
 <style lang="scss" scoped>
 	.hd_menu{
+		img{
+			z-index:-1;
+		}
 		.slide_submenu{
 			font-size: 24px;
 		    overflow: hidden;

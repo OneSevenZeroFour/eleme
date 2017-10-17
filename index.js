@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:42:40
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-15 15:08:41
+* @Last Modified time: 2017-10-17 15:53:44
 */
 
 //webpack入口文件
@@ -35,6 +35,11 @@ import home from "./component/home.vue";
 import remaicombo from "./component/combo_list.vue";
 import navmeishi from "./component/nav_meishi.vue";
 
+//lyh
+import xsousuo from './component/sousuo.vue';
+import xfooter from './component/footer.vue';
+import xdiscover from './component/discover.vue';
+Vue.component('xfooter',xfooter);
 
 //配置路由
 const router = new VueRouter({
@@ -44,6 +49,12 @@ const router = new VueRouter({
         },{
             path: '/home',
             component: home
+        },{
+            path:'/search',
+            component:xsousuo
+        },{
+            path:'/discover',
+            component:xdiscover
         },{
         	path:"/remai",
         	component:remaicombo
@@ -82,7 +93,27 @@ var store = new Vuex.Store({
         position: "获取位置中...",
         lat:0,
         lng:0,
-        weather:''
+        weather:'',
+        idx:0,
+        destroy:function(){
+            document.cookie = 'rou='+app.$route.fullPath;
+        },
+        back:function(){
+            var cookie = document.cookie.split('; ');
+            var rou;
+            cookie.forEach(function(item){
+                var arr = item.split('=');
+                if(arr[0]=='rou'){
+                    rou = arr[1];
+                }
+            });
+            if(rou){
+                var url = location.href;
+                location.href = url.replace(app.$route.fullPath,rou);
+            }else{
+                return;
+            }
+        }
     },
     mutations: {
         setAds(state, obj) {       
@@ -96,6 +127,9 @@ var store = new Vuex.Store({
         },
         setWeather(state, obj){
             state.weather = obj;
+        },
+        setIdx:function(state,data){
+            state.idx = data;
         }
     },
     actions: {
@@ -122,7 +156,7 @@ var store = new Vuex.Store({
 
 });
 
-new Vue({
+var app = new Vue({
     el: "#ele",
     data: {
         name: "eleme"

@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:50:32
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-13 16:42:43
+* @Last Modified time: 2017-10-17 15:08:18
 */
 
 var webpack = require('webpack');
@@ -52,6 +52,6 @@ module.exports = {
         inline: true,//实时刷新
         historyApiFallback: true, //不跳转        
         compress: true,
-        port: 10001
+        port: 10002
     }
 }
