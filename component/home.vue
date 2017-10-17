@@ -1,5 +1,6 @@
 <template>
     <div>
+        <deng_ww></deng_ww>
         <xsearch></xsearch>
         <hotkey></hotkey>
         <hdmenu></hdmenu>
@@ -15,13 +16,15 @@
 	import hdtehui from "./head_tehui.vue";
     import xlist from './list.vue';
     import xsearch from './search.vue';
+    import deng_ww from "./deng/deng_ele.vue";
     export default {
         components:{
             hotkey,
             hdmenu,
             hdtehui,
             xlist,
-            xsearch
+            xsearch,
+            deng_ww
         },
         beforeRouteLeave(to,from,next){
             this.$store.state.destroy();

@@ -21,7 +21,6 @@
 <style scoped>
     .deng_ele{
         height: 1rem;
-        border-bottom: 1px solid #ddd;
         font-size: 0.6rem;
         line-height: 1rem;
         padding:.266667rem .373333rem 0;

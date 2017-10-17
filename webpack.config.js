@@ -2,17 +2,16 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:50:32
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-17 15:08:18
+* @Last Modified time: 2017-10-17 17:42:14
 */
 
 var webpack = require('webpack');
-// const publicPath = "http://localhost:10001"; 用于配置引入图片时 寻找路径的问题
+
 module.exports = {
     entry:'./index.js',
     output:{
         path:__dirname + '/dist',
-        filename:'bundle.js',
-        // publicPath
+        filename:'bundle.js'
     },
     module:{
         loaders:[{
@@ -47,11 +46,9 @@ module.exports = {
         },
     },
     watch: true,
-    devServer: { //npm run server
+    devServer: {
         contentBase: "./dist",
-        inline: true,//实时刷新
-        historyApiFallback: true, //不跳转        
         compress: true,
-        port: 10002
+        port: 10001
     }
 }

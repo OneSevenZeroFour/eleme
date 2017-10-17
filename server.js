@@ -2,27 +2,33 @@
 * @Author: Marte
 * @Date:   2017-10-12 16:29:13
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-17 16:33:34
+* @Last Modified time: 2017-10-17 18:49:40
 */
-const https = require("https");
+var https = require("https");
 const mysql = require("mysql");
-const express = require("express");
-const bodyps = require("body-parser");
+var url_mode = require("url");
+var express = require('express');
+var body_parser = require('body-parser');
+var querystring = require('querystring');
+var md5 = require("md5");
 
-//连接远程数据库(邓)
-// var connection = mysql.createConnection({
-// 	host:"10.3.132.128",
-// 	user:"eleme",
-// 	password:"123123",
-// 	database:"ele"
-// });
-// connection.connect();
-
-var app = express();
-app.use(bodyps.json());
-app.use(bodyps.urlencoded({
+var app = new express();
+app.use(body_parser.json());
+app.use(body_parser.urlencoded({
     extended:true
+    //false时，键值对中的值为String/Array形式
+    //为true的时候，可为任何数据类型
 }));
+app.use(express.static("./imgs"));
+app.use(express.static("./dist"));
+//连接数据库
+var connection = mysql.createConnection({
+    host:'localhost',
+    user:'root',
+    password:'',
+	database:"ele"
+});
+connection.connect();
 
 /*-------------------by:lfp--------start--------------------------*/
 app.get("/hotkey",function(req,response){
@@ -216,19 +222,51 @@ app.get("/navmenu",function(req,response){
 console.log("server start")
 /*-------------------by:lfp--------end--------------------------*/
 
+//lyh
+app.get('/list',function(req,response){
+    response.setHeader("Access-Control-Allow-Origin","*");
+    console.log(req.query.num*1)
+    https.get("https://restapi.ele.me/shopping/restaurants?latitude="+req.query.lat+"&longitude="+req.query.lng+"&keyword=&offset="+req.query.num*1+"&limit=20",function(res){
+        var data = "";
+        res.setEncoding('utf8');
+        res.on("data",function(chunk){
+            data+=chunk;
+        })
+        res.on("end",function(){
+            response.send(data);
+        })
+    })
+})
 
-app.use(express.static("./imgs"));
+app.get('/hot',function(req,response){
+    response.setHeader("Access-Control-Allow-Origin","*");
+    https.get("https://restapi.ele.me/shopping/v3/hot_search_words?geohash=wtw3sjq6n6um&latitude=31.23037&longitude=121.473701&timestamp=1507878076&locationName=%E9%BB%84%E6%B5%A6%E5%8C%BA%E4%B8%8A%E6%B5%B7%E5%B8%82%E5%A7%94(%E4%BA%BA%E6%B0%91%E5%A4%A7%E9%81%93%E5%8C%97)",function(res){
+        var data = "";
+        res.setEncoding('utf8');
+        res.on("data",function(chunk){
+            data+=chunk;
+        })
+        res.on("end",function(){
+            response.send(data);
+        })
+    })
+})
 
-//连接数据库
-// var connection = mysql.createConnection({
-//     host:'localhost',
-//     user:'root',
-//     password:'',
-// 	database:"ele"
-// });
-// connection.connect();
+app.get('/search',function(req,response){
+    console.log(req.query.data)
+    response.setHeader("Access-Control-Allow-Origin","*");
+    https.get("https://restapi.ele.me/shopping/v1/restaurants/search?offset=0&limit=20&keyword="+req.query.data+"&latitude="+req.query.lat+"&longitude="+req.query.lng,function(res){
+        var data = "";
+        res.setEncoding('utf8');
+        res.on("data",function(chunk){
+            data+=chunk;
+        })
+        res.on("end",function(){
+            response.send(data);
+        })
+    })
+})
 
-console.log('run');
 
 // ===============================DYT start================================
 //获取天气
@@ -301,55 +339,81 @@ app.post('/getWeather',function(req,res){
         if(err) throw err;
         res.send(JSON.stringify(ress));
     });      
-})
-
-
-//lyh
-app.get('/list',function(req,response){
-    response.setHeader("Access-Control-Allow-Origin","*");
-    console.log(req.query.num*1)
-    https.get("https://restapi.ele.me/shopping/restaurants?latitude="+req.query.lat+"&longitude="+req.query.lng+"&keyword=&offset="+req.query.num*1+"&limit=20",function(res){
-        var data = "";
-        res.setEncoding('utf8');
-        res.on("data",function(chunk){
-            data+=chunk;
-        })
-        res.on("end",function(){
-            response.send(data);
-        })
-    })
-})
-
-app.get('/hot',function(req,response){
-    response.setHeader("Access-Control-Allow-Origin","*");
-    https.get("https://restapi.ele.me/shopping/v3/hot_search_words?geohash=wtw3sjq6n6um&latitude=31.23037&longitude=121.473701&timestamp=1507878076&locationName=%E9%BB%84%E6%B5%A6%E5%8C%BA%E4%B8%8A%E6%B5%B7%E5%B8%82%E5%A7%94(%E4%BA%BA%E6%B0%91%E5%A4%A7%E9%81%93%E5%8C%97)",function(res){
-        var data = "";
-        res.setEncoding('utf8');
-        res.on("data",function(chunk){
-            data+=chunk;
-        })
-        res.on("end",function(){
-            response.send(data);
-        })
-    })
-})
-
-app.get('/search',function(req,response){
-    console.log(req.query.data)
-    response.setHeader("Access-Control-Allow-Origin","*");
-    https.get("https://restapi.ele.me/shopping/v1/restaurants/search?offset=0&limit=20&keyword="+req.query.data+"&latitude="+req.query.lat+"&longitude="+req.query.lng,function(res){
-        var data = "";
-        res.setEncoding('utf8');
-        res.on("data",function(chunk){
-            data+=chunk;
-        })
-        res.on("end",function(){
-            response.send(data);
-        })
-    })
-})
-
-
-app.listen(10086);
+}).post('/savePsd',function(req,res){
+    res.append("Access-Control-Allow-Origin", "*");
+    var arg = req.body;
+    console.log("setpsd:",arg,md5(arg.psd));
+    connection.query(`update user set psd="${md5(arg.psd)}" where id=${arg.id}`,function(err,ress,field){
+        if(err) throw err;
+        console.log("update user psd success.");
+        res.send("success save new psd.");
+    });      
+}).post('/readOrder',function(req,res){
+    res.append("Access-Control-Allow-Origin", "*");
+    var arg = req.body.id;
+    console.log("get list of user ",arg);
+    connection.query('SELECT * from userOrder where userid='+arg,function(err,ress,field){
+        if(err) throw err;
+        res.send(JSON.stringify(ress));
+    });      
+});
 // ===============================DYT end==================================
 
+
+// ===============================LZH start================================
+app.get('/shopheader',function(req,res){
+    res.append("Access-Control-Allow-Origin","*");
+    var query = url_mode.parse(req.url).query;
+    var data = querystring.parse(query);
+    var shop_url = "https://restapi.ele.me/shopping/restaurant/"+data['id']+"?extras[]=activities&extras[]=albums&extras[]=license&extras[]=identification&extras[]=qualification&terminal=h5&latitude=31.23037&longitude=121.473701";
+    https.get(shop_url,function(response){
+        var data = "";
+        response.setEncoding('utf8');
+        response.on('data',function(chunk){
+            console.log('header接受数据');
+            data += chunk;
+        });
+        response.on('end',function(){
+            console.log("header数据接受完毕");
+            res.send(data);
+        }).on('error',function(){
+            console.log("read error");
+            res.send('error');
+        });
+    })
+
+})
+app.get('/shop',function(req,res){
+    res.append("Access-Control-Allow-Origin","*");
+    var query = url_mode.parse(req.url).query;
+    var data = querystring.parse(query);
+    var shop_goods_url = "https://restapi.ele.me/shopping/v2/menu?restaurant_id="+data['id'];
+    //id后拼接参数（商家id）
+    https.get(shop_goods_url,function(response){
+        var data = "";
+        response.setEncoding('utf8');
+        response.on("data",function(chunk){
+            console.log("接受数据")
+            data += chunk;
+        }).on("end",function(){
+            console.log("数据接受完毕")
+            res.send(data);
+        }).on("error",function(){
+            console.log("read error");
+            res.send('error');
+        });
+    })
+});
+app.post('/saveOrder', function(req, res) {
+    res.append("Access-Control-Allow-Origin", "*");
+    var arg = req.body.obj;
+    console.log("order:", arg);
+    connection.query(`insert into userOrder (sellerid,sellerimg,seller,userid,txt,ads,time,timeExp,sum,pay) 
+    values ("${arg.sellerid}","${arg.sellerimg}","${arg.seller}","${arg.userid}"),"${arg.txt}","${arg.ads}","${arg.time}","${arg.timeExp}","${arg.pay}","${arg.pay}"`, function(err, inserres, field) {
+        if(err) throw err;
+        console.log("order success");
+        res.send(JSON.stringify(inserres));
+    });
+});
+// ===============================LZH end==================================
+app.listen(10086);

@@ -6,7 +6,7 @@
             <a @click='back()' class="ico icon-arrow-left"></a>
             我的
         </header>
-        <div class="tologin" v-nologinclick="getCookie" url='/setinfo'>
+        <div class="tologin" v-nologinclick="getCookie" url='/userinfo'>
             <img :src="img" alt="" />
             <div class="txt">
                 <p>{{name}}</p>
@@ -49,6 +49,7 @@
             <span class='ico icon-eliaomo'></span>
             <p>下载饿了么APP<span class="ico icon-arrow-left"></span></p>
         </div>
+        <xfooter></xfooter>
     </div>
 </template>
 
@@ -130,8 +131,13 @@
                 });
             }
         },
+        beforeRouteEnter(to, from, next) {
+            $('body').css('background', '#f5f5f5');
+            next();
+        },
         beforeRouteLeave(to,from,next){
             this.$store.state.destroy();
+            $('body').css('background', 'none');
             next(true);
         }
     }
@@ -139,7 +145,6 @@
 
 <style scoped>
     .mine{
-        background-color: #f5f5f5;
         width: 100%;
         height: 100%;
     }

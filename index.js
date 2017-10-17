@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 18:42:40
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-17 17:03:11
+* @Last Modified time: 2017-10-17 17:22:10
 */
 
 //webpack入口文件
@@ -22,13 +22,13 @@ window.$ = $;
 
 
 // DYT 
-import deng_ww from "./component/deng/deng_ele.vue";
 import logindiv from "./component/deng/login.vue";
-import msglogindiv from "./component/deng/msglogin.vue";
-import psdlogindiv from "./component/deng/psdlogin.vue";
 import searchNearby from "./component/deng/setPosition.vue";
 import deng_mine from "./component/deng/my.vue";
 import deng_userorder from "./component/deng/order.vue";
+import deng_userinfo from "./component/deng/userinfo.vue";
+
+import shop from "./component/shop/shop.vue";
 
 //lfp
 import home from "./component/home.vue";
@@ -40,6 +40,7 @@ import xsousuo from './component/sousuo.vue';
 import xfooter from './component/footer.vue';
 import xdiscover from './component/discover.vue';
 Vue.component('xfooter',xfooter);
+
 
 //配置路由
 const router = new VueRouter({
@@ -56,33 +57,29 @@ const router = new VueRouter({
             path:'/discover',
             component:xdiscover
         },{
-        	path:"/remai",
-        	component:remaicombo
+            path:"/remai",
+            component:remaicombo
         },{
-        	path:"/meishi",
-        	component:navmeishi
-    	},{
+            path:"/meishi",
+            component:navmeishi
+        },{
             path: '/me',
             component: deng_mine
         },{
             path: '/login',
-            component: logindiv,
-            children:[{
-                path:'/login',
-                redirect:'/login/msg'
-            },{
-                path:'msg',
-                component:msglogindiv
-            },{
-                path:'psd',
-                component:psdlogindiv
-            }]
+            component: logindiv
         },{
             path:"/searchNear",
             component:searchNearby
         },{
             path:"/userorder",
             component:deng_userorder
+        },{
+            path:"/userinfo",
+            component:deng_userinfo
+        },{
+            path:"/shop/:id",
+            component:shop
         }
     ]
 });
@@ -94,7 +91,11 @@ var store = new Vuex.Store({
         lat:0,
         lng:0,
         weather:'',
+        detailTop: 0,
+        detailMsg: [],
+        cart: [],
         idx:0,
+        shop: {},
         destroy:function(){
             document.cookie = 'rou='+app.$route.fullPath;
         },
@@ -116,6 +117,9 @@ var store = new Vuex.Store({
         }
     },
     mutations: {
+        setShop(state, obj){
+            state.shop = obj;
+        },
         setAds(state, obj) {       
             state.position = obj;
         },
@@ -128,6 +132,37 @@ var store = new Vuex.Store({
         setWeather(state, obj){
             state.weather = obj;
         },
+        setDetailTop(state,obj){
+            state.detailTop = obj;
+        },
+        setDetailMsg(state,obj){
+            state.detailMsg = obj;
+        },
+        setDetailQty(state, obj){
+            state.detailMsg[obj.oi][obj.ii]["qty"] += obj.qty;
+        },
+        setCart(state, obj){
+            //当商品数量大于1时，加入购物车
+            var clist = [];
+            for(let i = 0; i <state.detailMsg.length; i++){
+                for(let j = 0; j < state.detailMsg[i].length; j++){
+                    if (state.detailMsg[i][j]["qty"]>0) {
+                        clist.push(state.detailMsg[i][j]);
+                    }
+                }
+            }
+            state.cart = clist;
+            console.log(state.cart);
+        },
+        //清空购物车
+        clearCart(state,obj){
+            state.cart = [];
+            for(let i = 0; i <state.detailMsg.length; i++){
+                for(let j = 0; j < state.detailMsg[i].length; j++){
+                        state.detailMsg[i][j]["qty"] = 0;
+                }
+            }
+        },
         setIdx:function(state,data){
             state.idx = data;
         }
@@ -135,11 +170,32 @@ var store = new Vuex.Store({
     actions: {
         letSetPosition(context, obj) {
             context.commit("setAds", obj.ads);
-            context.commit("setLat", obj.lat);
-            context.commit("setLng", obj.lng);
+            if(obj.lat)
+                context.commit("setLat", obj.lat);
+            if(obj.lng)
+                context.commit("setLng", obj.lng);
         },
         letGetWeather(context, obj){
             context.commit("setWeather",obj);
+        },
+        letSetDetailPosition(context, obj){
+            context.commit("setDetailTop", obj);
+        },
+        letSetDetailMsg(context,obj){
+            context.commit("setDetailMsg",obj);
+        },
+        letSetDetailQty(context,obj){
+            context.commit("setDetailQty",obj);
+        },
+        letSetCart(context, obj){
+            context.commit("setCart",obj);
+        },
+        //清空购物车
+        letClearCart(context, obj){
+            context.commit("clearCart",obj);
+        },
+        letSetShop(context, obj){
+            context.commit("setShop", obj);
         }
     },
     getters: {
@@ -151,21 +207,28 @@ var store = new Vuex.Store({
         },
         getWeather(state){
             return state.weather;
+        },
+        getDetailTop(state){
+            return state.detailTop;
+        },
+        getDetailMsg(state){
+            return state.detailMsg;
+        },
+        getCart(state){
+            return state.cart;
+        },
+        getShop(state){
+            return state.shop;
         }
+
     }
 
 });
-
 var app = new Vue({
     el: "#ele",
     data: {
         name: "eleme"
     },
-    template:`
-    	<div>
-	    	<router-view></router-view>
-    	</div>
-    `,
     methods:{
         getPosition:function(){
             console.log('getPositiion');
@@ -190,12 +253,19 @@ var app = new Vue({
                     }); 
                           
                 }else{
-                    console.log('failed'+this.getStatus());                         
+                    console.log('failed'+this.getStatus());     
+                    var obj = {ads:"未能获取地址"};
+                    self.$store.dispatch("letSetPosition",obj);                    
                 }
                  
             },{enableHighAccuracy:true});
         }
     },
+    template:`
+        <div>
+            <router-view></router-view>
+        </div>
+    `,
     created(){
         this.getPosition();
     },

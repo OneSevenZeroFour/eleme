@@ -3,7 +3,7 @@
         <h4>推荐商家</h4>
         <div v-for='a in restaurant' class='box'>
             <img :src='a.image_path'>
-            <a :href="'/shop?id='+a.id">
+            <a :href="'/#/shop/'+a.id">
                 <p class='first'>{{a.name}}</p>
                 <p>评分{{a.rating}} 月售{{a.recent_order_num}}<span v-if='a.type' class='send'>蜂鸟专送</span></p>
                 <p>￥{{a.float_minimum_order_amount}}起送 | 配送费￥{{a.float_delivery_fee}}<span class='dis'>{{a.distance}} | {{a.order_lead_time}}分钟</span></p>
