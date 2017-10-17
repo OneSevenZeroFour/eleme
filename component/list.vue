@@ -1,5 +1,5 @@
 <template>
-    <div :url="senddd" class='seller' v-scrolls='[addNum,loadMore,setFlag,reFlag]'>
+    <div class='seller' v-scrolls='[addNum,loadMore,setFlag,reFlag]'>
         <h4>推荐商家</h4>
         <div v-for='a in restaurant' class='box'>
             <img :src='a.image_path'>

@@ -2,7 +2,7 @@
 * @Author: Marte
 * @Date:   2017-10-12 16:29:13
 * @Last Modified by:   Marte
-* @Last Modified time: 2017-10-17 15:33:52
+* @Last Modified time: 2017-10-17 16:33:34
 */
 const https = require("https");
 const mysql = require("mysql");
@@ -329,7 +329,6 @@ app.get('/hot',function(req,response){
             data+=chunk;
         })
         res.on("end",function(){
-            console.log(data)
             response.send(data);
         })
     })
@@ -345,7 +344,6 @@ app.get('/search',function(req,response){
             data+=chunk;
         })
         res.on("end",function(){
-            console.log(data)
             response.send(data);
         })
     })

@@ -3,7 +3,7 @@
 <template>
     <div class="mine">
         <header>
-            <a href="#/home" class="ico icon-arrow-left"></a>
+            <a @click='back()' class="ico icon-arrow-left"></a>
             我的
         </header>
         <div class="tologin" v-nologinclick="getCookie" url='/setinfo'>
@@ -81,6 +81,9 @@
             }
         },
         methods:{
+            back(){
+                this.$store.state.back();
+            },
             getCookie(name){
                 var c = document.cookie;
                 if(c.length === 0) //没有cookie
@@ -126,6 +129,10 @@
                     }else router.push($(el).attr('url'));
                 });
             }
+        },
+        beforeRouteLeave(to,from,next){
+            this.$store.state.destroy();
+            next(true);
         }
     }
 </script>

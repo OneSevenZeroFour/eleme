@@ -3,7 +3,7 @@
 <template>
     <div class="order">
         <header>
-            <a href="#/home" class="ico icon-arrow-left"></a>
+            <a @click='back()' class="ico icon-arrow-left"></a>
             订单
         </header>
         <div class="error" v-if='!usertel'>
@@ -29,6 +29,9 @@
             }
         },
         methods:{
+            back(){
+                this.$store.state.back();
+            },
             getCookie(name){
                 var c = document.cookie;
                 if(c.length === 0) //没有cookie
@@ -63,6 +66,10 @@
                     self.coin = data.coin;    
                 });
             }
+        },
+        beforeRouteLeave(to,from,next){
+            this.$store.state.destroy();
+            next(true);
         }
     }
 </script>
